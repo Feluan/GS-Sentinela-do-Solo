@@ -69,3 +69,63 @@ def reavaliar_por_id(dados, cluster_id):
         if estaca['cluster_id'] == cluster_id:
             reavaliar_cluster(cluster, estaca, dados['relatos'])
 
+def mostrar_status(dados, cluster):
+    titulo(f"STATUS - {cluster['nome']}")
+    print(f"  Solo: {cluster['solo']} | Famílias no cluster: {cluster['familias']}")
+    mostrar_banner(cluster)
+    rotulo = descrever_estado(cluster)[0]
+    if rotulo == 'AMARELO':
+        print('  Checklist de preparação:')
+        for item in CHECKLIST_AMARELO:
+            print(f'   [ ] {item}')
+    elif rotulo == 'VERMELHO' and cluster['evacuacao_autorizada']:
+        coordenada = cluster['coordenadas']
+        abrigo, km = buscar_abrigo_proximo(coordenada, dados['abrigos'], cluster['id'])
+        if abrigo is not None:
+            print(f"  Abrigo: {abrigo['nome']} - {int(km * 1000)} m, cerca de {minutos_a_pe(km)} min a pé.")
+        print('  Leve apenas o essencial.')
+    print('  Dados da Defesa Civil e da estaca inteligente da sua região.')
+
+def enviar_relato(dados, cluster, nome):
+    titulo('NOVO RELATO')
+    for numero, tipo in TIPOS_RELATO.items():
+        print(f'  {numero} - {tipo}')
+    tipo = TIPOS_RELATO[ler_inteiro('Tipo de relato: ', 1, len(TIPOS_RELATO))]
+    descricao = ler_texto('Descreva o que você viu: ')
+    foto = ler_texto('Nome ou descrição da foto (Enter para pular): ', obrigatorio=False)
+    coordenada = ler_coordenada('Localização (digite as coordenadas do local):')
+    relato = {'id': proximo_id(dados['relatos']), 'cluster_id': cluster['id'], 'autor': nome, 'tipo': tipo, 'descricao': descricao, 'foto': foto, 'coordenadas': coordenada, 'status': 'Em Vistoria'}
+    dados['relatos'].append(relato)
+    reavaliar_por_id(dados, cluster['id'])
+    salvar(dados)
+    print(f"Relato #{relato['id']} enviado. Obrigado por ajudar a proteger sua rua!")
+
+def relatos_do_morador(dados, cluster, nome):
+    meus = []
+    for relato in dados['relatos']:
+        if relato['cluster_id'] == cluster['id'] and relato['autor'].lower() == nome.lower():
+            meus.append(relato)
+            print(f"  #{relato['id']} [{relato['status']}] {relato['tipo']} - {relato['descricao']}")
+    if not meus:
+        print('  Você ainda não enviou relatos neste cluster.')
+    return meus
+
+def editar_relato(dados, cluster, nome):
+    titulo('EDITAR MEU RELATO')
+    meus = relatos_do_morador(dados, cluster, nome)
+    if not meus:
+        return
+    relato = buscar_por_id(meus, ler_inteiro('Número do relato: ', 1, 9999))
+    if relato is None:
+        print('Relato não encontrado entre os seus.')
+        return
+    nova = ler_texto('Nova descrição (Enter para manter): ', obrigatorio=False)
+    if nova != '':
+        relato['descricao'] = nova
+    if ler_confirmacao('Deseja trocar o tipo do relato?'):
+        for numero, tipo in TIPOS_RELATO.items():
+            print(f'  {numero} - {tipo}')
+        relato['tipo'] = TIPOS_RELATO[ler_inteiro('Novo tipo: ', 1, len(TIPOS_RELATO))]
+    relato['status'] = 'Em Vistoria'
+    salvar(dados)
+    print('Relato atualizado.')
