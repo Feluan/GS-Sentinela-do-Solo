@@ -340,3 +340,97 @@ def menu_defesa(dados):
                     print('  Nenhum evento registrado.')
             case 0:
                 return
+
+def listar_empresas(taludes):
+    empresas = []
+    for talude in taludes:
+        if talude['empresa'] not in empresas:
+            empresas.append(talude['empresa'])
+    return empresas
+
+def taludes_da_empresa(dados, empresa):
+    return [t for t in dados['taludes'] if t['empresa'] == empresa]
+
+def ver_taludes(dados, empresa):
+    titulo(f'TALUDES - {empresa}')
+    for talude in taludes_da_empresa(dados, empresa):
+        cluster = buscar_por_id(dados['clusters'], talude['cluster_id'])
+        print(f"  {talude['id']} - {talude['nome']}")
+        print(f"      estado: [{NOMES_ESTADO[cluster['estado']]}] | circulação: {talude['circulacao']}")
+
+def alterar_circulacao(dados, empresa, novo_valor):
+    ver_taludes(dados, empresa)
+    talude = buscar_por_id(taludes_da_empresa(dados, empresa), ler_inteiro('Número do talude: ', 1, 9999))
+    if talude is None:
+        print('Talude não encontrado entre os da sua empresa.')
+    elif talude['circulacao'] == novo_valor:
+        print(f"A circulação já está '{novo_valor}'.")
+    elif ler_confirmacao(f"Confirma mudar a circulação de '{talude['nome']}' para {novo_valor}?"):
+        talude['circulacao'] = novo_valor
+        cluster = buscar_por_id(dados['clusters'], talude['cluster_id'])
+        registrar_evento(dados, f"Circulação {novo_valor}: {talude['nome']}", empresa, cluster['estado'])
+        salvar(dados)
+        print('Circulação atualizada. Esta ação não aciona alerta público.')
+
+def relatorio_familias(dados, empresa):
+    titulo(f'FAMÍLIAS PROTEGIDAS - {empresa}')
+    vistos = []
+    protegidas = 0
+    em_alerta = 0
+    for talude in taludes_da_empresa(dados, empresa):
+        if talude['cluster_id'] not in vistos:
+            vistos.append(talude['cluster_id'])
+            cluster = buscar_por_id(dados['clusters'], talude['cluster_id'])
+            protegidas += cluster['familias']
+            if cluster['estado'] >= 2:
+                em_alerta += cluster['familias']
+    print(f'  Clusters monitorados: {len(vistos)}')
+    print(f'  Famílias protegidas pelos seus sensores: {protegidas}')
+    print(f'  Famílias em cluster com alerta ativo: {em_alerta}')
+    print('  Selo: Parceiro ESG Sentinela do Solo')
+
+def menu_empresa(dados):
+    titulo('PERFIL EMPRESA')
+    empresas = listar_empresas(dados['taludes'])
+    for numero, nome in enumerate(empresas, start=1):
+        print(f'  {numero} - {nome}')
+    empresa = empresas[ler_inteiro('Sua empresa: ', 1, len(empresas)) - 1]
+    while True:
+        titulo(f'EMPRESA: {empresa}')
+        print('1 - Ver taludes monitorados\n2 - Paralisar circulação\n3 - Retomar circulação')
+        print('4 - Relatório de famílias protegidas\n0 - Voltar')
+        match ler_inteiro('Escolha: ', 0, 4):
+            case 1:
+                ver_taludes(dados, empresa)
+            case 2:
+                alterar_circulacao(dados, empresa, 'paralisada')
+            case 3:
+                alterar_circulacao(dados, empresa, 'normal')
+            case 4:
+                relatorio_familias(dados, empresa)
+            case 0:
+                return
+
+def main():
+    dados = carregar_dados(CAMINHO_DADOS)
+    if dados is None:
+        print('Não foi possível iniciar o sistema.')
+        return
+    while True:
+        titulo('SENTINELA DO SOLO')
+        print('1 - Cidadão\n2 - Defesa Civil\n3 - Empresa\n0 - Sair')
+        match ler_inteiro('Escolha seu perfil: ', 0, 3):
+            case 1:
+                menu_cidadao(dados)
+            case 2:
+                menu_defesa(dados)
+            case 3:
+                menu_empresa(dados)
+            case 0:
+                print('Até logo. Cuide-se e fique atento ao seu cluster.')
+                break
+if __name__ == '__main__':
+    try:
+        main()
+    except (KeyboardInterrupt, EOFError):
+        print('\nPrograma encerrado.')
