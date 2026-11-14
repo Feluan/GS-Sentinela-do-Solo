@@ -34,7 +34,6 @@ Foram planejados testes para verificar o funcionamento das principais funcionali
 - Persistência dos dados: cadastrar informações, fechar o programa e abri-lo novamente para conferir se os dados continuam salvos.
 - Dados incorretos: testar entradas inválidas e verificar se o programa apresenta mensagens de erro sem encerrar inesperadamente.
 
-Após esses testes, devem ser registradas as falhas encontradas e as correções realizadas.
 
 ## Análise crítica
 
