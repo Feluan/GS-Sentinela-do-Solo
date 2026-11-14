@@ -1,0 +1,185 @@
+{
+  "clusters": [
+    {
+      "id": 1,
+      "nome": "Encosta Norte",
+      "solo": "Argissolo",
+      "taxa_critica": 2.0,
+      "coordenadas": [
+        -23.454,
+        -46.688
+      ],
+      "estado": 1,
+      "score_crowd": 0,
+      "familias": 120,
+      "ruas": [
+        "Rua das Acácias",
+        "Rua do Barranco",
+        "Viela Três"
+      ],
+      "evacuacao_autorizada": false,
+      "vistoria_registrada": false,
+      "retorno_seguro": false
+    },
+    {
+      "id": 2,
+      "nome": "Zona Sul Alta",
+      "solo": "Latossolo",
+      "taxa_critica": 2.0,
+      "coordenadas": [
+        -23.7157,
+        -46.786
+      ],
+      "estado": 1,
+      "score_crowd": 0,
+      "familias": 85,
+      "ruas": [
+        "Rua do Mirante",
+        "Rua das Palmeiras"
+      ],
+      "evacuacao_autorizada": false,
+      "vistoria_registrada": false,
+      "retorno_seguro": false
+    },
+    {
+      "id": 3,
+      "nome": "Aterro Vila Nova",
+      "solo": "Aterro Antrópico",
+      "taxa_critica": 1.5,
+      "coordenadas": [
+        -23.662,
+        -46.701
+      ],
+      "estado": 1,
+      "score_crowd": 0,
+      "familias": 150,
+      "ruas": [
+        "Rua do Aterro",
+        "Travessa da Fonte",
+        "Rua Nova Esperança"
+      ],
+      "evacuacao_autorizada": false,
+      "vistoria_registrada": false,
+      "retorno_seguro": false
+    }
+  ],
+  "estacas": [
+    {
+      "id": 1,
+      "cluster_id": 1,
+      "theta_anterior": 10.0,
+      "theta_atual": 10.2,
+      "intervalo_h": 1.0,
+      "chuva_mm": 5.0,
+      "taxa": 0.2
+    },
+    {
+      "id": 2,
+      "cluster_id": 2,
+      "theta_anterior": 8.0,
+      "theta_atual": 8.1,
+      "intervalo_h": 1.0,
+      "chuva_mm": 5.0,
+      "taxa": 0.1
+    },
+    {
+      "id": 3,
+      "cluster_id": 3,
+      "theta_anterior": 12.0,
+      "theta_atual": 12.1,
+      "intervalo_h": 1.0,
+      "chuva_mm": 5.0,
+      "taxa": 0.1
+    }
+  ],
+  "relatos": [
+    {
+      "id": 1,
+      "cluster_id": 1,
+      "autor": "Maria",
+      "tipo": "rachadura",
+      "descricao": "Rachadura nova na parede dos fundos.",
+      "foto": "rachadura_parede.jpg",
+      "coordenadas": [
+        -23.4541,
+        -46.6882
+      ],
+      "status": "Em Vistoria"
+    }
+  ],
+  "abrigos": [
+    {
+      "id": 1,
+      "nome": "Escola Municipal Exemplo A",
+      "coordenadas": [
+        -23.456,
+        -46.69
+      ],
+      "cluster_id": null
+    },
+    {
+      "id": 2,
+      "nome": "Ginásio Municipal Exemplo B",
+      "coordenadas": [
+        -23.718,
+        -46.789
+      ],
+      "cluster_id": null
+    },
+    {
+      "id": 3,
+      "nome": "Escola Municipal Exemplo C",
+      "coordenadas": [
+        -23.664,
+        -46.704
+      ],
+      "cluster_id": null
+    },
+    {
+      "id": 4,
+      "nome": "CEU Exemplo D",
+      "coordenadas": [
+        -23.659,
+        -46.698
+      ],
+      "cluster_id": 3
+    }
+  ],
+  "taludes": [
+    {
+      "id": 1,
+      "empresa": "Metrovia Paulista",
+      "nome": "Talude km 12 - Linha Norte",
+      "cluster_id": 1,
+      "circulacao": "normal"
+    },
+    {
+      "id": 2,
+      "empresa": "Rodovias do Sul",
+      "nome": "Talude km 34 - Rodovia Sul",
+      "cluster_id": 2,
+      "circulacao": "normal"
+    },
+    {
+      "id": 3,
+      "empresa": "Metrovia Paulista",
+      "nome": "Corte km 8 - Linha Sul",
+      "cluster_id": 3,
+      "circulacao": "normal"
+    }
+  ],
+  "historico": [
+    {
+      "data": "14/11/2026 16:02",
+      "acao": "Circulação paralisada: Talude km 12 - Linha Norte",
+      "perfil": "Metrovia Paulista",
+      "estado": 1
+    },
+    {
+      "data": "14/11/2026 16:03",
+      "acao": "Circulação normal: Talude km 12 - Linha Norte",
+      "perfil": "Metrovia Paulista",
+      "estado": 1
+    }
+  ]
+}
