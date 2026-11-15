@@ -25,15 +25,19 @@ Em alguns momentos, foram consultados exemplos de código para entender melhor c
 
 ## Testes e alterações
 
-Foram planejados testes para verificar o funcionamento das principais funcionalidades do sistema, principalmente:
+Foram realizados testes automatizados e manuais para verificar o funcionamento das principais funcionalidades do sistema.
 
-- Cadastro de informações: verificar se os dados são recebidos corretamente e armazenados no arquivo JSON.
-- Validação de entradas: testar campos vazios, letras em campos numéricos e valores negativos.
-- Cálculos: inserir diferentes valores de movimentação e conferir se a taxa e o nível de alerta são calculados corretamente.
-- Menus: acessar os três perfis disponíveis e verificar se as opções correspondem às funcionalidades de cada um.
-- Persistência dos dados: cadastrar informações, fechar o programa e abri-lo novamente para conferir se os dados continuam salvos.
-- Dados incorretos: testar entradas inválidas e verificar se o programa apresenta mensagens de erro sem encerrar inesperadamente.
+Testes automatizados: 16 testes executados utilizando unittest, todos aprovados.
 
+Cidadão: testes de consulta de status, cadastro, edição, exclusão e listagem de relatos, persistência dos dados e busca de abrigos.
+
+Defesa Civil: testes de leitura das estacas, cálculo de risco, avaliação de alertas, triagem de relatos e regras de bloqueio de evacuação e retorno.
+
+Empresa: testes de consulta de taludes, paralisação e retomada da circulação e relatórios de famílias protegidas nas duas empresas cadastradas.
+
+Persistência: verificação das alterações após consultas e reinicialização do programa.
+
+Os testes realizados apresentaram os resultados esperados. Durante as verificações, também foram identificados e analisados pequenos ajustes no funcionamento do sistema.
 
 ## Análise crítica
 
